@@ -13,7 +13,8 @@
 
 // fetch the weather ... then run this function
 function getWeather(location) {
-    const url = 'http://localhost:3000/weather?address=' + location
+    //const url = 'http://localhost:3000/weather?address=' + location
+    const url = '/weather?address=' + location
     fetch(url).then((res) => {
         // if(!res.ok){
         //     console.log(res.text)
