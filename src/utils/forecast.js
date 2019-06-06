@@ -19,12 +19,28 @@ const forecast = (latitude, longitude, callback) => {
         } else {
             // const current = body.currently
             // const daily = body.daily
-            callback(undefined, body.daily.data[0].summary + 
+            var lowTemp = body.daily.data[0].temperatureLow;
+            var highTemp = body.daily.data[0].temperatureHigh;
+            var bearing = sector(parseInt(body.currently.windBearing, 10))
+
+            callback(undefined, body.daily.data[0].summary +
                 ' It is currently ' + body.currently.temperature +
                 ' degrees out. There is a ' + body.currently.precipProbability + '% chance of rain. ' +
-                'The windspeed is ' + body.currently.windSpeed + '.')
+                'The windspeed is ' + body.currently.windSpeed + ', coming out of the ' + bearing + '. ' +
+                'Today\'s low: ' + lowTemp + ' degrees. ' +
+                'Today\'s high: ' + highTemp + ' degrees. '
+            )
         }
     })
+
+    const sectors = ["N","NNEast","NEast","ENEast","East","ESEast","SEast","SSEast","South","SSWest","SWest","WSWest","West","WNWest","NWest","NNWest","North"]
+    
+    // https://www.campbellsci.com/blog/convert-wind-directions
+    function sector(direction) {
+        index = direction % 360
+        index = Math.round(index  / 22.5) + 1
+        return sectors[index]
+    }
 }
 
 module.exports = forecast
